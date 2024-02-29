@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <record id="airline_sc_automation.account_report_column_tree" model="ir.ui.view">
+            <field name="name">account.report.column.tree</field>
+            <field name="model">account.report.column</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="0" delete="0" decoration-info="can_be_deactivated == False">
+                    <field name="can_be_deactivated" invisible="1"/>
+                    <field name="sequence" widget="handle"/>
+                    <field name="name" readonly="1"/>
+                    <field name="active" widget="boolean_toggle" invisible="can_be_deactivated==False"/>
+                </tree>
+            </field>
+        </record>
+    
+    </data>
+</odoo>

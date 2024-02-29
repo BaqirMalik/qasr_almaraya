@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <record id="account_reports.general_ledger_report" model="account.report">
+            <field name="load_more_limit" eval="800000000"/>
+        </record>
+
+        <record id="account_reports.general_ledger_report_date" model="account.report.column">
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="account_reports.general_ledger_report_communication" model="account.report.column">
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="account_reports.general_ledger_report_partner_name" model="account.report.column">
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="account_reports.general_ledger_report_amount_currency" model="account.report.column">
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="account_reports.general_ledger_report_debit" model="account.report.column">
+            <field name="sequence">50</field>
+        </record>
+
+        <record id="account_reports.general_ledger_report_credit" model="account.report.column">
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="account_reports.general_ledger_report_balance" model="account.report.column">
+            <field name="sequence">70</field>
+        </record>
+    
+    </data>
+</odoo>

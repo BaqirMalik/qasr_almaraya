@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="airline_sc_automation.view_partner_form" model="ir.ui.view">
+			<field name="name">res.partner.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//div[1]" position="before">
+					<header>
+						<button name="action_create_ticket" type="object" string="Create Ticket" groups="airline_sc_automation.group_user,airline_sc_automation.group_manager"/>
+						<button name="action_create_visa" type="object" string="Create Visa" groups="airline_sc_automation.group_manager,airline_sc_automation.group_visa_manager"/>
+                        <button name="action_create_mpayment" type="object" string="Create MPayment" groups="airline_sc_automation.group_mpayment_user,airline_sc_automation.group_mpayment_manager"/>
+                        <button name="action_create_tour" type="object" string="Create Tour" groups="airline_sc_automation.group_tour_user,airline_sc_automation.group_tour_manager"/>
+                        <button name="create_crm_ticket" type="object" string="Create CRM Ticket"/>
+                        <button name="create_helpdesk_ticket" type="object" string="Create Helpdesk Ticket"/>
+                    </header>
+				</xpath>
+
+                <div name="button_box" position="inside">
+<!--                    <button type="object" attrs="{'invisible':[('tickets_number','=', 0)]}"  class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_tickets" context="{'default_customer_id': active_id, 'default_readonly_customer': True}" groups="airline_sc_automation.group_user,airline_sc_automation.group_manager,airline_sc_automation.group_auditor">-->
+                    <button type="object" class="oe_stat_button" invisible="tickets_number == 0" icon="fa-pencil-square-o" name="action_view_tickets" context="{'default_customer_id': active_id, 'default_readonly_customer': True}" groups="airline_sc_automation.group_user,airline_sc_automation.group_manager,airline_sc_automation.group_auditor">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="tickets_number" groups="airline_sc_automation.group_user,airline_sc_automation.group_manager,airline_sc_automation.group_auditor"/>
+                            </span>
+                            <span class="o_stat_text">Tickets</span>
+                        </div>
+                    </button>
+                </div>
+
+                <xpath expr="//div[@class='oe_title mb24']//h1" position="after">
+                    <field name="is_company" invisible="1"/>
+<!--                    <div class="space-seperator-10" attrs="{'invisible':[('is_company', '=', True)]}"/>-->
+                    <div class="space-seperator-10" invisible="is_company==True"/>
+<!--                    <div class="o_row" attrs="{'invisible':[('is_company', '=', True)]}">-->
+                    <div class="o_row" invisible="is_company==True">
+                        <label for="id_number" string="ID Number"/>
+                        <field name="id_number"/>
+                    </div>
+<!--                    <div class="space-seperator" attrs="{'invisible':[('is_company', '=', True)]}"/>-->
+                    <div class="space-seperator" invisible="is_company==True"/>
+                </xpath>
+
+                <xpath expr="//field[@name='vat']" position="after">
+					<field name="is_vendor" widget="boolean_toggle"/>
+<!--                    <field name="ticket_number_is_required" widget="boolean_toggle" attrs="{'invisible':[('is_vendor', '=', False)]}"/>-->
+                    <field name="ticket_number_is_required" widget="boolean_toggle" invisible="is_vendor==False"/>
+                    <field name="is_tour_vendor" widget="boolean_toggle"/>
+                    <field name="is_visa_vendor" widget="boolean_toggle"/>
+                    <field name="is_mpayment_vendor" widget="boolean_toggle"/>
+<!--                    <field name="is_airport" widget="boolean_toggle" attrs="{'invisible':[('is_company', '=', False)]}"/>-->
+                    <field name="is_airport" widget="boolean_toggle" invisible="is_company==False"/>
+<!--                    <field name="is_hotel" widget="boolean_toggle" attrs="{'invisible':[('is_company', '=', False)]}"/>-->
+                    <field name="is_hotel" widget="boolean_toggle" invisible="is_company==False"/>
+<!--                    <field name="airline_currency_id" attrs="{'invisible':[('is_vendor', '=', False), ('is_tour_vendor', '=', False), ('is_visa_vendor', '=', False), ('is_mpayment_vendor', '=', False)]}"/>-->
+                    <field name="airline_currency_id" invisible="is_vendor==False or is_tour_vendor==False or is_visa_vendor==False"/>
+				</xpath>
+
+                <!-- <xpath expr="//field[@name='phone']" position="replace">
+                    <field name="phone" widget="phone" invisible="1"/>
+                </xpath> -->
+                <xpath expr="//field[@name='mobile']" position="replace">
+                    <field name="mobile" widget="phone" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="replace">
+                    <field name="function" placeholder="e.g. Sales Director" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" placeholder="e.g. BE0477472701" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='title']" position="replace">
+                    <field name="title" options="{&quot;no_open&quot;: True}" placeholder="e.g. Mister" invisible="1"/>
+                </xpath>   
+                <xpath expr="//field[@name='lang']" position="replace">
+                    <field name="lang" invisible="1"/>
+                </xpath>   
+                <xpath expr="//div[@class='o_address_format']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//span[@name='address_name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        
+
+		<record id="airline_sc_automation.view_res_partner_filter" model="ir.ui.view">
+			<field name="name">res.partner.select</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_res_partner_filter"/>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="id_number"/>
+                </xpath>
+				<xpath expr="//filter[@name='type_company']" position="after">
+					<filter string="Tickets Vendors" name="ticket_vendor" domain="[('is_vendor', '=', True)]"/>
+                    <filter string="Tours Vendors" name="tour_vendor" domain="[('is_tour_vendor', '=', True)]"/>
+				</xpath>
+			</field>
+		</record>
+    
+    </data>
+</odoo>

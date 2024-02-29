@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_account_inherit_view_form" model="ir.ui.view">
+        <field name="name">account.account.form</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <field name="deprecated" position="after">
+                <field name="is_used_for_purchase"/>
+                <field name="is_expense_account"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="account_account_inherit_view_list" model="ir.ui.view">
+        <field name="name">account.account.form</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list" />
+        <field name="arch" type="xml">
+            <field name="reconcile" position="after">
+                <field name="is_expense_account" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

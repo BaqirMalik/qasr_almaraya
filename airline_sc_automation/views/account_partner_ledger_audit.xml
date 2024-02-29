@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="airline_sc_automation.account_partner_ledger_report_audit_form" model="ir.ui.view">
+        <field name="name">account.partner.ledger.report.audit.form</field>
+        <field name="model">account.partner.ledger.report.audit</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button name="update_partner_balance_ids_action" type="object" string="Update Partners Balance" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                    </group>
+
+                    <notebook>
+                        <page name="partner_balance_ids" string="Partners Balance">
+                            <group >
+                                <group style="width: 300px;">
+                                    <field name="search_partner_name" string="Search"/>
+                                </group>
+                                <group>
+                                    <button name="search_partner_action" type="object" string="Search" class="btn-primary"/>
+                                </group>
+                            </group>
+                            <field name="partner_balance_ids">
+                                <tree create="0" delete="0" no_open="1" editable="1" limit="99999999">
+                                    <field name="partner_id" readonly="1" />
+                                    <field name="balance_iqd" readonly="1" string="Balance IQD"/>
+                                    <field name="balance_usd" readonly="1" string="Balance USD"/>
+                                    <field name="is_matched" widget="boolean_toggle" />
+                                    <field name="note" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="account_partner_ledger_report_audit_tree" model="ir.ui.view">
+        <field name="name">account.partner.ledger.report.audit.tree</field>
+        <field name="model">account.partner.ledger.report.audit</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,316 @@
+<odoo>
+    <data>
+
+        <!-- ####### -->
+        <!-- Actions -->
+        <!-- ####### -->
+
+        <!-- Tickets -->
+
+        <record id="airline_sc_automation.airline_ticket_action" model="ir.actions.act_window">
+            <field name="name">Tickets</field>
+            <field name="res_model">airline.ticket</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="domain">[('state', '!=', 'canceled'),('invoice_id.state', '!=', 'cancel')]</field>-->
+        </record>
+
+        <record id="airline_sc_automation.ticket_destination_action" model="ir.actions.act_window">
+            <field name="name">Ticket Destinations</field>
+            <field name="res_model">ticket.destination</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="airline_sc_automation.passenger_type_action" model="ir.actions.act_window">
+            <field name="name">Passenger Types</field>
+            <field name="res_model">passenger.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Tours -->
+
+        <record id="airline_sc_automation.airline_tour_action" model="ir.actions.act_window">
+            <field name="name">Tours</field>
+            <field name="res_model">airline.tour</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="domain">[('state', '!=', 'canceled'),('invoice_id.state', '!=', 'cancel')]</field>-->
+        </record>
+
+        <record id="airline_sc_automation.tour_destination_action" model="ir.actions.act_window">
+            <field name="name">Tour Destinations</field>
+            <field name="res_model">tour.destination</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="airline_sc_automation.tour_durations_action" model="ir.actions.act_window">
+            <field name="name">Tour Durations</field>
+            <field name="res_model">tour.duration</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="airline_sc_automation.tour_offers_action" model="ir.actions.act_window">
+            <field name="name">Tours Offers</field>
+            <field name="res_model">airline.tour.offer</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_group_destination': 1, 'search_default_group_duration': 1, 'search_default_group_vendor': 1}</field>
+        </record>
+
+        <!-- Visa -->
+
+        <record id="airline_sc_automation.airline_visa_action" model="ir.actions.act_window">
+            <field name="name">Visas</field>
+            <field name="res_model">airline.visa</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="domain">[('state', '!=', 'canceled'),('invoice_id.state', '!=', 'cancel')]</field>-->
+        </record>
+
+        <record id="airline_sc_automation.visa_countries_action" model="ir.actions.act_window">
+            <field name="name">Visa Countries</field>
+            <field name="res_model">airline.visa.country</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="airline_sc_automation.visa_types_action" model="ir.actions.act_window">
+            <field name="name">Visa Types</field>
+            <field name="res_model">airline.visa.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="airline_sc_automation.visa_residence_duration_action" model="ir.actions.act_window">
+            <field name="name">Visa Residence Duration</field>
+            <field name="res_model">visa.residence.duration</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="airline_sc_automation.visa_validity_action" model="ir.actions.act_window">
+            <field name="name">Visa Validity</field>
+            <field name="res_model">visa.validity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="airline_sc_automation.airline_visa_offer_action" model="ir.actions.act_window">
+            <field name="name">Visa Offers</field>
+            <field name="res_model">airline.visa.offer</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_group_country': 1, 'search_default_group_type': 1}</field>
+        </record>
+
+
+        <!-- MPayment -->
+
+        <record id="airline_sc_automation.airline_mpayment_action" model="ir.actions.act_window">
+            <field name="name">MPayment</field>
+            <field name="res_model">airline.mpayment</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="domain">[('state', '!=', 'canceled'),('invoice_id.state', '!=', 'cancel')]</field>-->
+        </record>
+
+        <record id="airline_sc_automation.airline_mpayment_card_type_action" model="ir.actions.act_window">
+            <field name="name">MPayment Card Type</field>
+            <field name="res_model">mpayment.card.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Partner Ledger -->
+
+        <record id="airline_sc_automation.partner_ledger_column_config_action" model="ir.actions.act_window">
+            <field name="name">Partner Ledger Columns</field>
+            <field name="res_model">account.report.column</field>
+            <field name="view_mode">tree</field>
+            <field name="domain" eval="[('active', 'in', [False, True]), ('report_id', '=', ref('account_reports.partner_ledger_report'))]"/>
+        </record>
+
+        <record id="airline_sc_automation.account_partner_ledger_report_audit_action" model="ir.actions.act_window">
+            <field name="name">Partner Ledger Audit</field>
+            <field name="res_model">account.partner.ledger.report.audit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="airline_sc_automation.account_general_ledger_report_audit_action" model="ir.actions.act_window">
+            <field name="name">General Ledger Audit</field>
+            <field name="res_model">account.general.ledger.report.audit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- ########## -->
+        <!-- Menu Items -->
+        <!-- ########## -->
+
+        <!-- Tickets -->
+        <menuitem
+            id="airline_sc_automation.airline_ticket_root_menu"
+            name="Airline Tickets"
+            action="airline_sc_automation.airline_ticket_action"
+            web_icon="airline_sc_automation,static/src/img/tickets_icon.png"/>
+
+        <menuitem
+            id="airline_sc_automation.ticket_contacts_menu"
+            name="Contacts"
+            action="contacts.action_contacts"
+            parent="airline_sc_automation.airline_ticket_root_menu"
+            sequence="5"/>
+
+        <menuitem
+            id="airline_sc_automation.ticket_destination_menu"
+            name="Destinations"
+            action="airline_sc_automation.ticket_destination_action"
+            parent="airline_sc_automation.airline_ticket_root_menu"
+            sequence="10"/>
+
+        <menuitem
+            id="airline_sc_automation.passenger_type_menu"
+            name="Passenger Types"
+            action="airline_sc_automation.passenger_type_action"
+            parent="airline_sc_automation.airline_ticket_root_menu"
+            sequence="15"/>
+
+
+        <!-- Tour -->
+
+        <menuitem
+            id="airline_sc_automation.airline_tour_root_menu"
+            name="Airline Tours"
+            action="airline_sc_automation.airline_tour_action"
+            web_icon="airline_sc_automation,static/src/img/tours_icon.png"/>
+
+        <menuitem
+            id="airline_sc_automation.tours_contacts_menu"
+            name="Contacts"
+            action="contacts.action_contacts"
+            parent="airline_sc_automation.airline_tour_root_menu"
+            sequence="5"/>
+
+        <menuitem
+            id="airline_sc_automation.tour_destination_menu"
+            name="Destinations"
+            action="airline_sc_automation.tour_destination_action"
+            parent="airline_sc_automation.airline_tour_root_menu"
+            sequence="10"/>
+
+        <menuitem
+            id="airline_sc_automation.tour_durations_menu"
+            name="Durations"
+            action="airline_sc_automation.tour_durations_action"
+            parent="airline_sc_automation.airline_tour_root_menu"
+            sequence="15"/>
+
+        <menuitem
+            id="airline_sc_automation.tour_offers_menu"
+            name="Offers"
+            action="airline_sc_automation.tour_offers_action"
+            parent="airline_sc_automation.airline_tour_root_menu"
+            sequence="20"/>
+
+
+        <!-- Visa -->
+
+        <menuitem
+            id="airline_sc_automation.airline_visa_root_menu"
+            name="Visas"
+            action="airline_sc_automation.airline_visa_action"
+            web_icon="airline_sc_automation,static/src/img/visa_icon.png"/>
+
+        <menuitem
+            id="airline_sc_automation.visa_contacts_menu"
+            name="Contacts"
+            action="contacts.action_contacts"
+            parent="airline_sc_automation.airline_visa_root_menu"
+            sequence="5"/>
+
+        <menuitem
+            id="airline_sc_automation.visa_countries_menu"
+            name="Countries"
+            action="airline_sc_automation.visa_countries_action"
+            parent="airline_sc_automation.airline_visa_root_menu"
+            sequence="10"/>
+
+        <menuitem
+            id="airline_sc_automation.visa_types_menu"
+            name="Visa Types"
+            action="airline_sc_automation.visa_types_action"
+            parent="airline_sc_automation.airline_visa_root_menu"
+            sequence="15"/>
+
+        <menuitem
+            id="airline_sc_automation.visa_residence_duration_menu"
+            name="Residence Durations"
+            action="airline_sc_automation.visa_residence_duration_action"
+            parent="airline_sc_automation.airline_visa_root_menu"
+            sequence="20"/>
+
+        <menuitem
+            id="airline_sc_automation.visa_validity_menu"
+            name="Validity"
+            action="airline_sc_automation.visa_validity_action"
+            parent="airline_sc_automation.airline_visa_root_menu"
+            sequence="25"/>
+
+        <menuitem
+            id="airline_sc_automation.visa_offer_menu"
+            name="Offers"
+            action="airline_sc_automation.airline_visa_offer_action"
+            parent="airline_sc_automation.airline_visa_root_menu"
+            sequence="30"/>
+
+
+        <!-- MPayment -->
+
+        <menuitem
+            id="airline_sc_automation.airline_mpayment_root_menu"
+            name="MPayment"
+            action="airline_sc_automation.airline_mpayment_action"
+            web_icon="airline_sc_automation,static/src/img/mpayment_icon.png"/>
+
+        <menuitem
+            id="airline_sc_automation.mpayment_contacts_menu"
+            name="Contacts"
+            action="contacts.action_contacts"
+            parent="airline_sc_automation.airline_mpayment_root_menu"
+            sequence="5"/>
+
+        <menuitem
+            id="airline_sc_automation.mpayment_card_type_menu"
+            name="Card Types"
+            action="airline_sc_automation.airline_mpayment_card_type_action"
+            parent="airline_sc_automation.airline_mpayment_root_menu"
+            sequence="10"/>
+
+
+        <!-- Partner Ledger -->
+
+        <menuitem
+            id="airline_sc_automation.partner_ledger_column_config_menu"
+            name="Partner Ledger Columns"
+            action="airline_sc_automation.partner_ledger_column_config_action"
+            parent="account.account_account_menu"
+            sequence="11"/>
+
+        <menuitem 
+            id="airline_sc_automation.final_finance_report_menu" 
+            name="Final Finance Report" 
+            action="airline_sc_automation.final_finance_report_wizard_action" 
+            parent="account.account_reports_legal_statements_menu" sequence="11"/>
+
+        <menuitem 
+            id="airline_sc_automation.account_partner_ledger_report_audit_menuitme" 
+            name="Partner Ledger Audit" 
+            action="airline_sc_automation.account_partner_ledger_report_audit_action" 
+            parent="account_reports.account_reports_audit_reports_menu" sequence="10"/>
+
+        <menuitem 
+            id="airline_sc_automation.external_partner_ledger_menuitem" 
+            name="External Partner Ledger" 
+            action="airline_sc_automation.external_partner_ledger_wizard_action" 
+            parent="account_reports.account_reports_partners_reports_menu" sequence="10"/>
+
+        <menuitem 
+            id="airline_sc_automation.external_general_ledger_menuitem" 
+            name="External General Ledger" 
+            action="airline_sc_automation.external_general_ledger_wizard_action" 
+            parent="account_reports.account_reports_audit_reports_menu" sequence="10"/>
+
+        <menuitem 
+            id="airline_sc_automation.account_general_ledger_report_audit_menuitme" 
+            name="General Ledger Audit" 
+            action="airline_sc_automation.account_general_ledger_report_audit_action" 
+            parent="account_reports.account_reports_audit_reports_menu" sequence="10"/>
+    </data>
+</odoo>

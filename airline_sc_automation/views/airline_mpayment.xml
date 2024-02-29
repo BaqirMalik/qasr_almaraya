@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="airline_sc_automation.airline_mpayment_tree" model="ir.ui.view">
+			<field name="name">airline.mpayment.tree</field>
+			<field name="model">airline.mpayment</field>
+			<field name="arch" type="xml">
+				<tree string="" decoration-danger="is_line_red == True">
+					<field name="currency_id" invisible="1"/>
+					<field name="is_line_red" invisible="1"/>
+					<field name="vendor_currency_id" invisible="1"/>
+					<field name="company_currency_id" invisible="1"/>
+					<field name="name"/>
+					<field name="vendor_id"/>
+					<field name="customer_id"/>
+					<field name="mobile"/>
+					<field name="email"/>
+					<field name="cost" optional="show" options="{'currency_field': 'vendor_currency_id'}" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="price" optional="show" options="{'currency_field': 'currency_id'}" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="main_cost" optional="hide" sum="1" options="{'currency_field': 'company_currency_id'}" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="main_price" optional="hide" sum="1" options="{'currency_field': 'company_currency_id'}" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="profit" optional="show" sum="1" options="{'currency_field': 'company_currency_id'}" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="invoice_state" widget="badge" string="Invoice Status" optional="show" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="bill_state" widget="badge" string="Bill Status" optional="show" groups="airline_sc_automation.group_can_see_finance"/>
+					<field name="state" widget="badge" optional="show" decoration-success="state == 'confirmed'" decoration-info="state == 'draft'"/>
+					<field name="invoice_payment_state" widget="badge" decoration-danger="invoice_payment_state == 'not_paid'" decoration-warning="invoice_payment_state in ('partial', 'in_payment')" decoration-success="invoice_payment_state in ('paid', 'reversed')" optional="show"/>
+					<field name="has_refund"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="airline_sc_automation.airline_mpayment_form" model="ir.ui.view">
+			<field name="name">airline.mpayment.form</field>
+			<field name="model">airline.mpayment</field>
+			<field name="arch" type="xml">
+				<form string="Mpayment">
+					<field name="invoice_id" invisible="1"/>
+					<field name="invoice_state" invisible="1"/>
+					<field name="invoice_payment_state" invisible="1"/>
+					<field name="invoice_move_type" invisible="1"/>
+					<field name="has_refund" invisible="1"/>
+					<field name="readonly_customer" invisible="1"/>
+					<header>
+						<button name="action_confirm" type="object" string="Confirm" class="oe_highlight" data-hotkey="c" invisible="state != 'draft'"/>
+						<button name="action_cancel" type="object" string="Cancel" invisible="state != 'draft'"/>
+<!--						<button name="action_reverse" string="Refund" class="oe_highlight" type="object" groups="account.group_account_invoice" attrs="{'invisible': ['|', '|', '|', ('invoice_move_type', 'not in', ('out_invoice', 'in_invoice')), ('invoice_state', '!=', 'posted'), ('invoice_payment_state', 'not in', ['in_payment', 'paid', 'partial']), ('state', '=', 'refund')]}"/>-->
+						<button name="action_reverse" string="Refund" class="oe_highlight" type="object" groups="account.group_account_invoice" invisible="invoice_move_type not in ('out_invoice', 'in_invoice') or invoice_state != 'posted' or invoice_payment_state not in ['in_payment', 'paid', 'partial'] or state, '=', 'refund'"/>
+<!--						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', ('invoice_state', '!=', 'posted'), ('invoice_payment_state', 'not in', ('not_paid', 'partial')), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_id', '=', False)]}" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>-->
+						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" invisible = "invoice_state != 'posted' or invoice_payment_state not in ('not_paid', 'partial') or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'] or invoice_id == False" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>
+<!--						<button name="action_reverse_confirmed" type="object" string="Refund" attrs="{'invisible': ['|', '|', ('state', '!=', 'confirmed'), ('id', '=', False), ('invoice_payment_state', 'in', ['in_payment', 'paid', 'partial'])]}"/>-->
+						<button name="action_reverse_confirmed" type="object" string="Refund" invisible = "state != 'confirmed' or id == False or invoice_payment_state in ['in_payment', 'paid', 'partial']"/>
+						<button name="action_draft" type="object" string="Reset to Draft" invisible="state=='cancelled'"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirmed,canceled"/>
+					</header>
+					<sheet>
+						<field name="currency_id" invisible="1" force_save="1"/>
+						<field name="vendor_currency_id" invisible="1" force_save="1"/>
+
+						<div class="oe_button_box" name="button_box">
+							<field name="sale_order_id" invisible="1"/>
+							<field name="purchase_order_id" invisible="1"/>
+							<button name="open_sale_order" string="Sale Order" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="sale_order_id==False"/>
+							<button name="open_purchase_order" string="Purchase Order" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="purchase_order_id==False"/>
+						</div>
+
+<!--						<widget name="web_ribbon" title="Paid" attrs="{'invisible': ['|', ('invoice_payment_state', '!=', 'paid'), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>-->
+						<widget name="web_ribbon" title="Paid" invisible = "invoice_payment_state != 'paid' or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"/>
+<!--						<widget name="web_ribbon" title="In Payment" attrs="{'invisible': ['|', ('invoice_payment_state', '!=', 'in_payment'), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>-->
+						<widget name="web_ribbon" title="In Payment" invisible = "invoice_payment_state != 'in_payment' or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"/>
+<!--						<widget name="web_ribbon" title="Partial" attrs="{'invisible': ['|', ('invoice_payment_state', '!=', 'partial'), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>-->
+						<widget name="web_ribbon" title="Partial" invisible = "invoice_payment_state != 'partial' or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"/>
+
+						<h1>
+							<field name="name"/>
+						</h1>
+						<group>
+							<group>
+								<field name="vendor_id" options="{'no_create': True, 'no_create_edit': True}" readonly="state!='draft'"/>
+							</group>
+							<group>
+<!--								<field name="customer_id" options="{'no_create': True}" attrs="{'readonly':['|', ('state', '!=', 'draft'), ('readonly_customer', '=', True)]}"/>-->
+								<field name="customer_id" options="{'no_create': True}" readonly = "state != 'draft' or readonly_customer == True"/>
+								<field name="mobile" widget="phone"/>
+								<field name="email" widget="email"/>
+							</group>
+						</group>
+						<div class="space-seperator"/>
+						<h3>Cost &amp; Price Info</h3>
+						<hr/>
+						<group>
+							<group>
+								<label for="cost"/>
+								<div class="o_row">
+									<field name="cost" options="{'currency_field': 'vendor_currency_id'}" readonly="state != 'draft'"/>
+									<i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+								</div>
+							</group>
+							<group>
+								<field name="price" options="{'currency_field': 'currency_id'}" readonly="state != 'draft'"/>
+							</group>
+						</group>
+<!--						<hr attrs="{'invisible': ['|', ('state', '=', 'draft'), ('invoice_payment_state', 'in', ('paid', 'in_payment'))]}"/>-->
+						<hr invisible = "state == 'draft' or invoice_payment_state in ['paid', 'in_payment']"/>
+						<group>
+<!--							<field name="invoice_amount_residual" class="oe_subtotal_footer_separator" attrs="{'invisible': ['|', ('state', 'in', ['draft']), ('invoice_payment_state', 'in', ('paid', 'in_payment'))]}"/>-->
+							<field name="invoice_amount_residual" class="oe_subtotal_footer_separator" invisible = "state in ['draft'] or invoice_payment_state in ['paid', 'in_payment']"/>
+						</group>
+						<notebook>
+							<page name="refund_lines" string="Refund Lines" invisible="has_refund==False">
+								<field name="refund_line_ids">
+									<tree editable='bottom'>
+										<field name="invoice_move_type" invisible="1"/>
+										<field name="bill_currency_id" invisible="1"/>
+										<field name="invoice_currency_id" invisible="1"/>
+										<field name="bill_id"/>
+										<field name="invoice_id"/>
+										<field name="bill_amount_total" options="{'currency_field': 'bill_currency_id'}"/>
+										<field name="invoice_amount_total" options="{'currency_field': 'invoice_currency_id'}"/>
+<!--										<field name="invoice_amount_residual" attrs="{'invisible':['|', ('invoice_state', '=', 'cancel'), ('invoice_amount_residual', '=', 0)]}"/>-->
+										<field name="invoice_amount_residual" invisible = "invoice_state == 'cancel' or invoice_amount_residual == 0"/>
+										<field name="invoice_payment_state" widget="badge" decoration-danger="invoice_payment_state == 'not_paid'" decoration-warning="invoice_payment_state in ('partial', 'in_payment')" decoration-success="invoice_payment_state in ('paid', 'reversed')"/>
+										<field name="invoice_state" widget="badge" decoration-danger="invoice_state == 'cancel'" decoration-success="invoice_state == 'posted'" decoration-info="invoice_state == 'draft'"/>
+<!--										<button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|', '|', ('invoice_state', '=', 'cancel'), ('invoice_payment_state', '!=', 'not_paid'), ('invoice_id', '=', False)]}"/>-->
+										<button name="action_cancel" type="object" string="Cancel" invisible = "invoice_state == 'cancel' or invoice_payment_state != 'not_paid' or invoice_id==False"/>
+<!--										<button name="action_register_payment" id="account_invoice_payment_btn" type="object" attrs="{'invisible': ['|', '|', '|', ('invoice_state', '!=', 'posted'), ('invoice_payment_state', 'not in', ('not_paid', 'partial')), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_id', '=', False)]}" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>-->
+										<button name="action_register_payment" id="account_invoice_payment_btn" type="object" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice" invisible = "invoice_state != 'posted' or invoice_payment_state not in ['not_paid', 'partial'] or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'] or invoice_id == False"/>
+									</tree>
+									<form string="Refund Line">
+										<field name="invoice_move_type" invisible="1"/>
+										<field name="invoice_payment_state" invisible="1"/>
+										<field name="bill_currency_id" invisible="1"/>
+										<field name="invoice_currency_id" invisible="1"/>
+										<header>
+<!--											<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', ('invoice_state', '!=', 'posted'), ('invoice_payment_state', 'not in', ('not_paid', 'partial')), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_id', '=', False)]}" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>-->
+											<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice" invisible = "invoice_state != 'posted' or invoice_payment_state not in ['not_paid', 'partial'] or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'] or invoice_id == False"/>
+<!--											<button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': ['|', '|', ('invoice_state', '=', 'cancel'), ('invoice_payment_state', '!=', 'not_paid'), ('invoice_id', '=', False)]}"/>-->
+											<button name="action_cancel" type="object" string="Cancel"  invisible = "invoice_state == 'cancel' or invoice_payment_state != 'not_paid' or invoice_id == False"/>
+										</header>
+<!--										<widget name="web_ribbon" title="Paid" attrs="{'invisible': ['|', ('invoice_payment_state', '!=', 'paid'), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>-->
+										<widget name="web_ribbon" title="Paid" invisible = "invoice_payment_state != 'paid' or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"/>
+<!--										<widget name="web_ribbon" title="In Payment" attrs="{'invisible': ['|', ('invoice_payment_state', '!=', 'in_payment'), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>-->
+										<widget name="web_ribbon" title="In Payment" invisible = "invoice_payment_state != 'in_payment' or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"/>
+<!--										<widget name="web_ribbon" title="Partial" attrs="{'invisible': ['|', ('invoice_payment_state', '!=', 'partial'), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"/>-->
+										<widget name="web_ribbon" title="Partial" invisible = "invoice_payment_state != 'partial' or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt']"/>
+										<group>
+											<group>
+												<field name="bill_id" readonly="1"/>
+												<field name="invoice_id" readonly="1"/>
+												<field name="invoice_state" readonly="1"/>
+<!--												<field name="invoice_amount_residual" attrs="{'invisible':['|', ('invoice_state', '=', 'cancel'), ('invoice_amount_residual', '=', 0)]}"/>-->
+												<field name="invoice_amount_residual" invisible = "invoice_state == 'cancel' or invoice_amount_residual == 0"/>
+											</group>
+											<group>
+												<field name="bill_amount_total" options="{'currency_field': 'bill_currency_id'}"/>
+												<field name="invoice_amount_total" options="{'currency_field': 'invoice_currency_id'}"/>
+											</group>
+										</group>
+									</form>
+								</field>
+							</page>
+							<page name="lines" string="Cards" readonly="state != 'draft'">
+								<field name="line_ids">
+									<tree editable='bottom'>
+										<field name="card_type_id"/>
+										<field name="card_number"/>
+										<field name="card_phone_number"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="activity_ids"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="airline_sc_automation.airline_mpayment_search" model="ir.ui.view">
+			<field name="name">airline.mpayment.search</field>
+			<field name="model">airline.mpayment</field>
+			<field name="arch" type="xml">
+				<search string="">
+					<field string="MPayment" name="name" filter_domain="['|', '|', ('name', 'like', self), ('customer_id', 'ilike', self), ('vendor_id', 'ilike', self)]"/>
+					<field name="name" string="MPayment Name"/>
+					<field name="customer_id"/>
+					<field name="vendor_id"/>
+					<field name="state"/>
+				</search>
+			</field>
+		</record>
+
+		<record id="airline_sc_automation.mpayment_card_type_tree" model="ir.ui.view">
+			<field name="name">mpayment.card.type.tree</field>
+			<field name="model">mpayment.card.type</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+
+	</data>
+</odoo>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_reports.partner_ledger_report" model="account.report">
+            <field name="load_more_limit" eval="800000000"/>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_ticket_customer" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Customer Name</field>
+            <field name="expression_label">ticket_customer</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">-10</field>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_source_document" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Source Document</field>
+            <field name="expression_label">source_document</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">-9</field>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_ticket_number" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Order Info</field>
+            <field name="expression_label">passengers_info</field>
+            <field name="figure_type">monetary</field>
+            <field name="sequence">-8</field>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_ticket_info" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Ticket Info</field>
+            <field name="expression_label">ticket_info</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">-7</field>
+        </record>
+        
+        <record id="airline_sc_automation.partner_ledger_report_payment_memo" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Memo</field>
+            <field name="expression_label">memo</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">-3</field>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_ticket_vendor" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Vendor</field>
+            <field name="expression_label">ticket_vendor</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">-2</field>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_flight_number" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Flight Number</field>
+            <field name="expression_label">ticket_flight_number</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">-1</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="airline_sc_automation.partner_ledger_report_order_description" model="account.report.column">
+            <field name="report_id" ref="account_reports.partner_ledger_report"/>
+            <field name="name">Order Description</field>
+            <field name="expression_label">order_description</field>
+            <field name="figure_type">string</field>
+            <field name="sequence">0</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_journal_code" model="account.report.column">
+            <field name="sequence">5</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_account_code" model="account.report.column">
+            <field name="sequence">6</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <!--<record id="account_reports.partner_ledger_report_ref" model="account.report.column">
+            <field name="sequence">7</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_date_maturity" model="account.report.column">
+            <field name="sequence">8</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_matching_number" model="account.report.column">
+            <field name="sequence">9</field>
+            <field name="active" eval="False"/>
+        </record>-->
+
+        <record id="account_reports.partner_ledger_report_debit" model="account.report.column">
+            <field name="sequence">10</field>
+            <field name="can_be_deactivated" eval="False"/>
+            <field name="temp_type">debit</field>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_credit" model="account.report.column">
+            <field name="sequence">12</field>
+            <field name="can_be_deactivated" eval="False"/>
+            <field name="temp_type">credit</field>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_amount_currency" model="account.report.column">
+            <field name="sequence">14</field>
+        </record>
+
+        <record id="account_reports.partner_ledger_report_balance" model="account.report.column">
+            <field name="sequence">15</field>
+            <field name="can_be_deactivated" eval="False"/>
+            <field name="temp_type">balance</field>
+        </record>
+
+    </data>
+</odoo>

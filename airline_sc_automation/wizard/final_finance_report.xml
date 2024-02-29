@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="final_finance_report_view_wizard_form" model="ir.ui.view">
+        <field name="name">final_finance_report_form</field>
+        <field name="model">finalfinance.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="show_results" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="iqd_currency_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="start_date"/>
+                    </group>
+                    <group>
+                        <field name="end_date"/>
+                    </group>
+                </group>
+
+                <group>
+                    <group name="tickets" string="Tickets profit" invisible="show_results != True">
+                        <field name="ticket_profit" string='Tickets Profit' readonly="1" />
+                        <field name="tour_profit" string='Tours Profit' readonly="1" />
+                        <field name="visa_profit" string='Visas Profit' readonly="1" />
+                        <field name="mpayment_profit" string='Mpayments Profit' readonly="1" />
+                        <field name="total_tickets_profit" string='Total Profit' readonly="1" />
+                    </group>
+
+<!--                    <group name="opening_balance" string="Opening Balance" invisible="show_results = True">-->
+                    <group name="opening_balance" string="Opening Balance">
+                        <field name="opening_balance_iqd" string='Opening Balance IQD' readonly="1" options="{'currency_field': 'iqd_currency_id'}"/>
+                        <field name="opening_balance_usd" string='Opening Balance USD' readonly="1"/>
+
+                    </group>
+                </group>
+
+                <group>
+<!--                    <group name="total_expense" string="Total Expense" invisible="show_results != True">-->
+                    <group name="total_expense" string="Total Expense">
+                        <field name="total_expenses" readonly="1"/>
+                    </group>
+
+<!--                    <group name="net_profit" string="Net Profit" invisible="show_results != True">-->
+                    <group name="net_profit" string="Net Profit">
+                        <field name="net_profit" readonly="1"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button id="Confirm" type="object" name="action_confirm" string="Confirm" class='btn-primary'/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="airline_sc_automation.final_finance_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Final Finance Report</field>
+        <field name="res_model">finalfinance.report</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="final_finance_report_view_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

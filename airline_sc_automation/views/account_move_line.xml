@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_move_inherit_view" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='aml_tab']/field[@name='line_ids']/tree/field[@name='credit']" position="after">
+                    <field name="is_gl_audited" widget="boolean_toggle" string="GL Audit"/>
+                    <field name="gl_note" optional="hide"/>
+                    <field name="is_pl_audited" widget="boolean_toggle" string="PL Audit"/>
+                    <field name="pl_note" optional="hide"/>
+                </xpath>
+                <xpath expr="//notebook/page[@name='aml_tab']/field[@name='line_ids']/form/group/field[@name='date_maturity']" position="after">
+                    <field name="is_gl_audited" widget="boolean_toggle" string="GL Audit"/>
+                    <field name="gl_note" optional="hide"/>
+                    <field name="is_pl_audited" widget="boolean_toggle" string="PL Audit"/>
+                    <field name="pl_note" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_move_line_inherit_view" model="ir.ui.view">
+            <field name="name">account.move.line.form</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='information']" position="after">
+                    <page string="GL Audit" name="gl_audit">
+                        <group>
+                            <field name="is_gl_audited" widget="boolean_toggle" string="GL Audit"/>
+                            <field name="gl_note"/>
+                        </group>
+                    </page>
+                    <page string="PL Audit" name="pl_audit">
+                        <group>
+                            <field name="is_pl_audited" widget="boolean_toggle" string="PL Audit"/>
+                            <field name="pl_note"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_move_line_tree_grouped_general_partner" model="ir.ui.view">
+            <field name="name">account.move.line.tree.grouped.misc</field>
+            <field name="model">account.move.line</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree" position="attributes">
+                    <attribute name="decoration-danger">is_pl_audited == False</attribute>
+                    <attribute name="decoration-success">is_pl_audited == True</attribute>
+                </xpath>
+                <field name="account_id" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </field>
+                <field name="balance" position="attributes">
+                    <attribute name="optional">show</attribute>
+                </field>
+                <xpath expr="//field[@name='sequence']" position="after">
+                    <field name="is_pl_audited" widget="boolean_toggle" readonly="1"/>
+                    <field name="pl_note" string="PL Note" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_line_tree_grouped_general_general" model="ir.ui.view">
+            <field name="name">account.move.line.tree.grouped.misc</field>
+            <field name="model">account.move.line</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree" position="attributes">
+                    <attribute name="decoration-danger">is_gl_audited == False</attribute>
+                    <attribute name="decoration-success">is_gl_audited == True</attribute>
+                </xpath>
+                <field name="account_id" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </field>
+                <field name="balance" position="attributes">
+                    <attribute name="optional">show</attribute>
+                </field>
+                <xpath expr="//field[@name='sequence']" position="after">
+                    <field name="is_gl_audited" widget="boolean_toggle" readonly="1"/>
+                    <field name="gl_note" string="GL Note" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

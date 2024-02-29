@@ -1,0 +1,81 @@
+.space-seperator{
+    height: 30px;
+}
+
+.space-seperator-10{
+    height: 10px;
+}
+
+.bottom-border{
+    border-bottom: 1px solid rgb(201, 197, 197)
+}
+
+.o_account_reports_page .o_account_report_line_ellipsis, .o_account_reports_page .o_account_report_name_ellipsis {
+    min-width: 150px !important;
+    max-width: 150px !important;
+}
+
+[data-name="passenger_id"] {
+    max-width: 160px !important;
+    width: 160px !important;
+    min-width: 160px !important;
+}
+
+[data-name="ticket_number"] {
+    max-width: 100px !important;
+    width: 100px !important;
+    min-width: 100px !important;
+}
+
+.o_field_x2many [data-name="price"] {
+    max-width: 60px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+}
+
+[data-name="fare"] {
+    max-width: 60px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+}
+
+.o_field_x2many [data-name="cost"] {
+    max-width: 60px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+}
+
+[data-name="tax"] {
+    max-width: 60px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+}
+
+[data-name="fee"] {
+    max-width: 60px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+}
+
+[data-name="customer_commission"] {
+    max-width: 90px !important;
+    width: 90px !important;
+    min-width: 90px !important;
+}
+
+[data-name="vendor_commission"] {
+    max-width: 90px !important;
+    width: 90px !important;
+    min-width: 90px !important;
+}
+
+[data-name="passenger_type"] {
+    max-width: 70px !important;
+    width: 70px !important;
+    min-width: 70px !important;
+}
+
+
+.o_account_reports_page .table-responsive > table > tbody > tr > td{
+    border: 1px solid black !important;
+}

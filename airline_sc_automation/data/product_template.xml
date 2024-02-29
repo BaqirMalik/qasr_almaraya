@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+        <record id="airline_sc_automation.ticket" model="product.template">
+            <field name="name">Ticket</field>
+            <field name="description">Airline Ticket</field>
+            <field name="description_purchase">Airline Ticket</field>
+            <field name="description_sale">Airline Ticket</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">0.0</field>
+            <field name="list_price">0.0</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="image_1920" type="base64" file="airline_sc_automation/static/src/img/ticket.png"/>
+            <field name="default_code">AIRLINE-TICKET</field>
+        </record>
+    
+        <record id="airline_sc_automation.tour" model="product.template">
+            <field name="name">Tour</field>
+            <field name="description">Airline Tour</field>
+            <field name="description_purchase">Airline Tour</field>
+            <field name="description_sale">Airline Tour</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">0.0</field>
+            <field name="list_price">0.0</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="image_1920" type="base64" file="airline_sc_automation/static/src/img/tour.png"/>
+            <field name="default_code">AIRLINE-TOUR</field>
+        </record>
+
+        
+        <record id="airline_sc_automation.visa" model="product.template">
+            <field name="name">Visa</field>
+            <field name="description">Airline Visa</field>
+            <field name="description_purchase">Airline Visa</field>
+            <field name="description_sale">Airline Visa</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">0.0</field>
+            <field name="list_price">0.0</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="image_1920" type="base64" file="airline_sc_automation/static/src/img/visa.png"/>
+            <field name="default_code">AIRLINE-VISA</field>
+        </record>
+
+        <record id="airline_sc_automation.mpayment" model="product.template">
+            <field name="name">Mpayment</field>
+            <field name="description">Airline MPayment</field>
+            <field name="description_purchase">Airline MPayment</field>
+            <field name="description_sale">Airline MPayment</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">0.0</field>
+            <field name="list_price">0.0</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="image_1920" type="base64" file="airline_sc_automation/static/src/img/mpayment.png"/>
+            <field name="default_code">AIRLINE-MPAYMENT</field>
+        </record>
+
+    </data>
+</odoo>

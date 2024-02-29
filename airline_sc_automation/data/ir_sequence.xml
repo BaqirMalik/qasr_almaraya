@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+    
+        <record id="airline_sc_automation.airline_ticket_sequence" model="ir.sequence">
+            <field name="name">Airline Tickets</field>
+            <field name="code">airline.ticket.code</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">AT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="airline_sc_automation.airline_tours_sequence" model="ir.sequence">
+            <field name="name">Airline Tours</field>
+            <field name="code">airline.tour.code</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">GT</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="airline_sc_automation.airline_visa_sequence" model="ir.sequence">
+            <field name="name">Airline Visa</field>
+            <field name="code">airline.visa.code</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">AV</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="airline_sc_automation.airline_mpayment_sequence" model="ir.sequence">
+            <field name="name">Airline Mpayment</field>
+            <field name="code">airline.mpayment.code</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">MP</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>    
+</odoo>

@@ -1,0 +1,156 @@
+<odoo>
+
+    <!-- Main Categories -->
+
+    <record model="ir.module.category" id="airline_sc_automation.module_category_airline_sc_automation">
+        <field name="name">Airline Tickets</field>
+        <field name="sequence">7</field>
+    </record>
+
+
+
+    <!-- Sub Categories -->
+
+    <record model="ir.module.category" id="airline_sc_automation.module_category_airline_tickets">
+        <field name="name">Airline Tickets</field>
+        <field name="parent_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="description">Help you handel your Airline Tickets and its' supply chain.</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record model="ir.module.category" id="airline_sc_automation.module_category_airline_tours">
+        <field name="name">Airline Tours</field>
+        <field name="parent_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="description">Help you handel your Airline Tours and its' supply chain.</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <record model="ir.module.category" id="airline_sc_automation.module_category_airline_visa">
+        <field name="name">Airline Visa</field>
+        <field name="parent_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="description">Help you handel your Airline Visas and its' supply chain.</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <record model="ir.module.category" id="airline_sc_automation.module_category_airline_mpayment">
+        <field name="name">Airline Mpayment</field>
+        <field name="parent_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="description">Help you handel your Airline Mpayment and its' supply chain.</field>
+        <field name="sequence">4</field>
+    </record>
+
+    <record id="airline_sc_automation.group_reset_payment" model="res.groups">  
+        <field name="name">Reset payment to draft</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+    </record>   
+
+    <!-- Tickets Groups -->
+
+    <record id="airline_sc_automation.group_user" model="res.groups">  
+        <field name="name">User</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_tickets"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>   
+  
+    <record id="airline_sc_automation.group_auditor" model="res.groups">  
+        <field name="name">Auditor</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_tickets"/>   
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_user'))]"/>  
+    </record>
+
+    <record id="airline_sc_automation.group_manager" model="res.groups">
+        <field name="name">Manager</field>   
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_tickets"/>
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_auditor'))]"/>
+    </record>
+
+
+    <!-- Tour Groups -->
+
+    <record id="airline_sc_automation.group_tour_user" model="res.groups">  
+        <field name="name">User</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_tours"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>   
+  
+    <record id="airline_sc_automation.group_tour_auditor" model="res.groups">  
+        <field name="name">Auditor</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_tours"/>   
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_tour_user'))]"/>  
+    </record>
+
+    <record id="airline_sc_automation.group_tour_manager" model="res.groups">
+        <field name="name">Manager</field>   
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_tours"/>
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_tour_auditor'))]"/>
+    </record>
+
+    
+    <!-- Visa Groups -->
+
+    <record id="airline_sc_automation.group_visa_user" model="res.groups">  
+        <field name="name">User</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_visa"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>   
+  
+    <record id="airline_sc_automation.group_visa_auditor" model="res.groups">  
+        <field name="name">Auditor</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_visa"/>   
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_visa_user'))]"/>  
+    </record>
+
+    <record id="airline_sc_automation.group_visa_manager" model="res.groups">
+        <field name="name">Manager</field>   
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_visa"/>
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_visa_auditor'))]"/>
+    </record>
+
+
+    <!-- Mpayment -->
+
+    <record id="airline_sc_automation.group_mpayment_user" model="res.groups">  
+        <field name="name">User</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_mpayment"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>   
+  
+    <record id="airline_sc_automation.group_mpayment_auditor" model="res.groups">  
+        <field name="name">Auditor</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_mpayment"/>   
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_mpayment_user'))]"/>  
+    </record>
+
+    <record id="airline_sc_automation.group_mpayment_manager" model="res.groups">
+        <field name="name">Manager</field>   
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_mpayment"/>
+        <field name="implied_ids" eval="[(4, ref('airline_sc_automation.group_mpayment_auditor'))]"/>
+    </record>
+
+    <!-- Uncategorized -->
+
+    <record id="airline_sc_automation.group_can_see_finance" model="res.groups">  
+        <field name="name">Can See Finance</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>   
+
+    <record id="airline_sc_automation.group_can_confirm_negative_profit_tickets" model="res.groups">  
+        <field name="name">Can Confirm Negative Profit Tickets</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record> 
+
+    <record id="airline_sc_automation.group_can_delete_audited_journal_item" model="res.groups">  
+        <field name="name">Can Delete or Reset Audited Journal Item</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>
+
+    <record id="airline_sc_automation.group_can_audit_journal_item" model="res.groups">  
+        <field name="name">Can Audit Journal Item</field>  
+        <field name="category_id" ref="airline_sc_automation.module_category_airline_sc_automation"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  
+    </record>      
+
+</odoo>

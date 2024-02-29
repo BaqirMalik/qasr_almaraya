@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <template id="airline_sc_automation.print_template" inherit_id="account_reports.print_template">
+            <xpath expr="//t[@t-out='body_html']" position="before">
+                <style>
+                    .o_account_reports_table > tbody > tr > td{
+                        border: 1px solid black !important;
+                    }
+                    .o_account_reports_table > thead > tr > th{
+                        border: 1px solid black !important;
+                    }
+                </style>
+                <div>
+                    <table border="0" style="border: 0px solid white !important;" width="100%">
+                        <tr>
+                            <td>
+                                <img width="height:60px;" src="/web/image?model=res.company&amp;id=1&amp;field=co_company_logo" style="border: 0px solid white !important;"/>
+                            </td>
+                            <td>
+                                <img width="height:60px;" src="/web/image?model=res.company&amp;id=1&amp;field=logo" style="display: -webkit-box;margin-left: auto;border: 0px solid white !important;"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <img width="width:100%;" src="/web/image?model=res.company&amp;id=1&amp;field=address_image" style="display: -webkit-box;margin: 0 auto;"/>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

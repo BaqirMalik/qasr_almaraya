@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="airline_sc_automation.ticket_reverse_form" model="ir.ui.view">
+        <field name="name">ticket.reverse.form</field>
+        <field name="model">ticket.reverse</field>
+        <field name="arch" type="xml">
+            <form string="Ticket Reverse">
+                <sheet>
+                    <field name="ticket_type" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="vendor_currency_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="vendor_refund_amount" options="{'currency_field': 'vendor_currency_id'}"/>
+                            <field name="customer_refund_amount" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="invoice_journal_id"/>
+<!--                            <field name="refund_type" widget="radio" attrs="{'invisible':[('ticket_type', '=', 'one_way')]}"/>-->
+                            <field name="refund_type" widget="radio"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Refund" name="action_refund" type="object" class="btn-primary" data-hotkey="r"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="airline_sc_automation.ticket_reverse_confirmed_form" model="ir.ui.view">
+        <field name="name">ticket.reverse.confirmed.form</field>
+        <field name="model">ticket.reverse.confirmed</field>
+        <field name="arch" type="xml">
+            <form string="Ticket Reverse">
+                <sheet>
+                    <field name="ticket_type" invisible="1"/>
+                    <field name="vendor_currency_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="vendor_refund_amount" options="{'currency_field': 'vendor_currency_id'}"/>
+                        </group>
+                        <group>
+                            <field name="customer_refund_amount" options="{'currency_field': 'currency_id'}"/>
+                            <field name="refund_type" widget="radio" invisible="ticket_type == 'one_way'"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Refund" name="action_refund" type="object" class="btn-primary" data-hotkey="r"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

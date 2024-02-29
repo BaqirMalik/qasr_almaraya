@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="airline_sc_automation.egl_account_account_tree" model="ir.ui.view">
+        <field name="name">account.account.tree</field>
+        <field name="model">account.account</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="currency_id"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="external_general_ledger_form" model="ir.ui.view">
+        <field name="name">external.general.ledger.form</field>
+        <field name="model">external.general.ledger</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Accounts">
+                            <field name="account_ids" no_label="1" context="{'tree_view_ref': 'airline_sc_automation.egl_account_account_tree'}">
+                                <tree>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="account_type"/>
+                                    <field name="currency_id"/>
+                                    <field name="company_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button id="button_print" type="object" name="print_report_action" string="Print" class='btn-primary'/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="external_general_ledger_wizard_action" model="ir.actions.act_window">
+        <field name="name">External General Ledger</field>
+        <field name="res_model">external.general.ledger</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="external_general_ledger_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
