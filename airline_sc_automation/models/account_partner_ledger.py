@@ -69,109 +69,109 @@ class PartnerLedgerCustomHandler(models.AbstractModel):
             }
         totals[index]['value'] += value
 
-    def _dynamic_lines_generator(self, report, options, all_column_groups_expression_totals, warnings='warnings'):
-        lines = super()._dynamic_lines_generator(report, options, all_column_groups_expression_totals)
-        report_id = self.env.ref('account_reports.partner_ledger_report')
-        partner_ledger_column_ids = self.env['account.report.column'].search([('report_id', '=', report_id.id)])
-        original_column_ids = [
-            self.env.ref('account_reports.partner_ledger_report_debit').id,
-            self.env.ref('account_reports.partner_ledger_report_credit').id,
-            self.env.ref('account_reports.partner_ledger_report_balance').id,
-        ]
-        company_currency_id = self.env.company.currency_id
-        columns_instructions = {}
-        report = self.env['account.report']
-        for index, column in enumerate(partner_ledger_column_ids):
-            if column.id in original_column_ids:
-                columns_instructions[index] = {
-                    'column_id': column,
-                    'action_type': 'original',
-                    'column_type': column.temp_type,
-                }
-            elif column.temp:
-                columns_instructions[index] = {
-                    'column_id': column,
-                    'action_type': 'temp',
-                    'column_type': column.temp_type,
-                }
-
-        totals = {}
-
-        for lines_index, line in enumerate(lines[:-1]):
-            try:
-                partner_int_id = int(line[1]['id'].split('~')[-1].split('-')[-1])
-            except:
-                continue
-            for column_index, column in enumerate(line[1]['columns']):
-                if column_index in columns_instructions:
-                    if columns_instructions[column_index]['action_type'] == 'original':
-                        move_lines = self.env['account.move.line'].search([('partner_id', '=', partner_int_id), ('currency_id', '=', company_currency_id.id), ('move_id.state', '=', 'posted'), ('account_id.account_type', 'in', ['liability_payable', 'asset_receivable']), ('account_id.non_trade', '=', False)])
-                        if columns_instructions[column_index]['column_type'] == 'debit':
-                            value = sum([x.debit for x in move_lines])
-                            self.update_totals(totals, column_index, company_currency_id, value)
-                            name = report.format_value(value, company_currency_id, figure_type='monetary', blank_if_zero=False)
-                            lines[lines_index][1]['columns'][column_index] = {
-                                'name': name,
-                                'no_format': value,
-                                'class': 'number'
-                            }
-                        elif columns_instructions[column_index]['column_type'] == 'credit':
-                            value = sum([x.credit for x in move_lines])
-                            self.update_totals(totals, column_index, company_currency_id, value)
-                            name = report.format_value(value, company_currency_id, figure_type='monetary', blank_if_zero=False)
-                            lines[lines_index][1]['columns'][column_index] = {
-                                'name': name,
-                                'no_format': value,
-                                'class': 'number'
-                            }
-                        elif columns_instructions[column_index]['column_type'] == 'balance':
-                            value = sum([x.balance for x in move_lines])
-                            self.update_totals(totals, column_index, company_currency_id, value)
-                            name = report.format_value(value, company_currency_id, figure_type='monetary', blank_if_zero=False)
-                            lines[lines_index][1]['columns'][column_index] = {
-                                'name': name,
-                                'no_format': value,
-                                'class': 'number'
-                            }
-                    elif columns_instructions[column_index]['action_type'] == 'temp':
-                        move_lines = self.env['account.move.line'].search([('partner_id', '=', partner_int_id), ('currency_id', '=', columns_instructions[column_index]['column_id'].currency_id.id), ('move_id.state', '=', 'posted'), ('account_id.account_type', 'in', ['liability_payable', 'asset_receivable']), ('account_id.non_trade', '=', False)])
-                        column_currency_id = columns_instructions[column_index]['column_id'].currency_id
-                        if columns_instructions[column_index]['column_type'] == 'debit':
-                            value = sum([x.amount_currency if x.amount_currency > 0 else 0  for x in move_lines])
-                            self.update_totals(totals, column_index, column_currency_id, value)
-                            name = report.format_value(value, column_currency_id, figure_type='monetary', blank_if_zero=False)
-                            lines[lines_index][1]['columns'][column_index] = {
-                                'name': name,
-                                'no_format': value,
-                                'class': 'number'
-                            }
-                        elif columns_instructions[column_index]['column_type'] == 'credit':
-                            value = sum([x.amount_currency if x.amount_currency < 0 else 0  for x in move_lines])
-                            self.update_totals(totals, column_index, column_currency_id, value)
-                            name = report.format_value(value, column_currency_id, figure_type='monetary', blank_if_zero=False)
-                            lines[lines_index][1]['columns'][column_index] = {
-                                'name': name,
-                                'no_format': value,
-                                'class': 'number'
-                            }
-                        elif columns_instructions[column_index]['column_type'] == 'balance':
-                            value = sum([x.amount_currency for x in move_lines])
-                            self.update_totals(totals, column_index, column_currency_id, value)
-                            name = report.format_value(value, column_currency_id, figure_type='monetary', blank_if_zero=False)
-                            lines[lines_index][1]['columns'][column_index] = {
-                                'name': name,
-                                'no_format': value,
-                                'class': 'number'
-                            }
-        for total_index in totals:
-            value = totals[total_index]['value']
-            name = report.format_value(value, totals[total_index]['currency_id'], figure_type='monetary', blank_if_zero=False)
-            lines[-1][1]['columns'][total_index] = {
-                'name': name,
-                'no_format': value,
-                'class': 'number'
-            }
-        return lines
+    # def _dynamic_lines_generator(self, report, options, all_column_groups_expression_totals):
+    #     lines = super()._dynamic_lines_generator(report, options, all_column_groups_expression_totals, warnings='warnings')
+    #     report_id = self.env.ref('account_reports.partner_ledger_report')
+    #     partner_ledger_column_ids = self.env['account.report.column'].search([('report_id', '=', report_id.id)])
+    #     original_column_ids = [
+    #         self.env.ref('account_reports.partner_ledger_report_debit').id,
+    #         self.env.ref('account_reports.partner_ledger_report_credit').id,
+    #         self.env.ref('account_reports.partner_ledger_report_balance').id,
+    #     ]
+    #     company_currency_id = self.env.company.currency_id
+    #     columns_instructions = {}
+    #     report = self.env['account.report']
+    #     for index, column in enumerate(partner_ledger_column_ids):
+    #         if column.id in original_column_ids:
+    #             columns_instructions[index] = {
+    #                 'column_id': column,
+    #                 'action_type': 'original',
+    #                 'column_type': column.temp_type,
+    #             }
+    #         elif column.temp:
+    #             columns_instructions[index] = {
+    #                 'column_id': column,
+    #                 'action_type': 'temp',
+    #                 'column_type': column.temp_type,
+    #             }
+    #
+    #     totals = {}
+    #
+    #     for lines_index, line in enumerate(lines[:-1]):
+    #         try:
+    #             partner_int_id = int(line[1]['id'].split('~')[-1].split('-')[-1])
+    #         except:
+    #             continue
+    #         for column_index, column in enumerate(line[1]['columns']):
+    #             if column_index in columns_instructions:
+    #                 if columns_instructions[column_index]['action_type'] == 'original':
+    #                     move_lines = self.env['account.move.line'].search([('partner_id', '=', partner_int_id), ('currency_id', '=', company_currency_id.id), ('move_id.state', '=', 'posted'), ('account_id.account_type', 'in', ['liability_payable', 'asset_receivable']), ('account_id.non_trade', '=', False)])
+    #                     if columns_instructions[column_index]['column_type'] == 'debit':
+    #                         value = sum([x.debit for x in move_lines])
+    #                         self.update_totals(totals, column_index, company_currency_id, value)
+    #                         name = report.format_value(value, company_currency_id, figure_type='monetary', blank_if_zero=False)
+    #                         lines[lines_index][1]['columns'][column_index] = {
+    #                             'name': name,
+    #                             'no_format': value,
+    #                             'class': 'number'
+    #                         }
+    #                     elif columns_instructions[column_index]['column_type'] == 'credit':
+    #                         value = sum([x.credit for x in move_lines])
+    #                         self.update_totals(totals, column_index, company_currency_id, value)
+    #                         name = report.format_value(value, company_currency_id, figure_type='monetary', blank_if_zero=False)
+    #                         lines[lines_index][1]['columns'][column_index] = {
+    #                             'name': name,
+    #                             'no_format': value,
+    #                             'class': 'number'
+    #                         }
+    #                     elif columns_instructions[column_index]['column_type'] == 'balance':
+    #                         value = sum([x.balance for x in move_lines])
+    #                         self.update_totals(totals, column_index, company_currency_id, value)
+    #                         name = report.format_value(value, company_currency_id, figure_type='monetary', blank_if_zero=False)
+    #                         lines[lines_index][1]['columns'][column_index] = {
+    #                             'name': name,
+    #                             'no_format': value,
+    #                             'class': 'number'
+    #                         }
+    #                 elif columns_instructions[column_index]['action_type'] == 'temp':
+    #                     move_lines = self.env['account.move.line'].search([('partner_id', '=', partner_int_id), ('currency_id', '=', columns_instructions[column_index]['column_id'].currency_id.id), ('move_id.state', '=', 'posted'), ('account_id.account_type', 'in', ['liability_payable', 'asset_receivable']), ('account_id.non_trade', '=', False)])
+    #                     column_currency_id = columns_instructions[column_index]['column_id'].currency_id
+    #                     if columns_instructions[column_index]['column_type'] == 'debit':
+    #                         value = sum([x.amount_currency if x.amount_currency > 0 else 0  for x in move_lines])
+    #                         self.update_totals(totals, column_index, column_currency_id, value)
+    #                         name = report.format_value(value, column_currency_id, figure_type='monetary', blank_if_zero=False)
+    #                         lines[lines_index][1]['columns'][column_index] = {
+    #                             'name': name,
+    #                             'no_format': value,
+    #                             'class': 'number'
+    #                         }
+    #                     elif columns_instructions[column_index]['column_type'] == 'credit':
+    #                         value = sum([x.amount_currency if x.amount_currency < 0 else 0  for x in move_lines])
+    #                         self.update_totals(totals, column_index, column_currency_id, value)
+    #                         name = report.format_value(value, column_currency_id, figure_type='monetary', blank_if_zero=False)
+    #                         lines[lines_index][1]['columns'][column_index] = {
+    #                             'name': name,
+    #                             'no_format': value,
+    #                             'class': 'number'
+    #                         }
+    #                     elif columns_instructions[column_index]['column_type'] == 'balance':
+    #                         value = sum([x.amount_currency for x in move_lines])
+    #                         self.update_totals(totals, column_index, column_currency_id, value)
+    #                         name = report.format_value(value, column_currency_id, figure_type='monetary', blank_if_zero=False)
+    #                         lines[lines_index][1]['columns'][column_index] = {
+    #                             'name': name,
+    #                             'no_format': value,
+    #                             'class': 'number'
+    #                         }
+    #     for total_index in totals:
+    #         value = totals[total_index]['value']
+    #         name = report.format_value(value, totals[total_index]['currency_id'], figure_type='monetary', blank_if_zero=False)
+    #         lines[-1][1]['columns'][total_index] = {
+    #             'name': name,
+    #             'no_format': value,
+    #             'class': 'number'
+    #         }
+    #     return lines
 
 
     def _get_aml_values(self, options, partner_ids, offset=0, limit=None):
