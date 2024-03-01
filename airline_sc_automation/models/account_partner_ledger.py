@@ -69,7 +69,7 @@ class PartnerLedgerCustomHandler(models.AbstractModel):
             }
         totals[index]['value'] += value
 
-    def _dynamic_lines_generator(self, report, options, all_column_groups_expression_totals):
+    def _dynamic_lines_generator(self, report, options, all_column_groups_expression_totals, warnings='warnings'):
         lines = super()._dynamic_lines_generator(report, options, all_column_groups_expression_totals)
         report_id = self.env.ref('account_reports.partner_ledger_report')
         partner_ledger_column_ids = self.env['account.report.column'].search([('report_id', '=', report_id.id)])

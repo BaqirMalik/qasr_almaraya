@@ -5,7 +5,7 @@ from . import airline_tour
 from . import airline_visa
 from . import airline_mpayment
 from . import res_partner
-from . import account_partner_ledger
+# from . import account_partner_ledger
 from . import res_company
 from . import account_payment
 from . import account
