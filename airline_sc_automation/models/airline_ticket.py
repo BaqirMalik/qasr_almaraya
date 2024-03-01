@@ -164,7 +164,8 @@ class AirlineTicket(models.Model):
             'move_ids': [(6, 0, [self.bill_id.id])],
             'available_journal_ids': self.bill_id.suitable_journal_ids.ids,
             'journal_id': self.bill_id.journal_id.id,
-            'refund_method': 'refund',
+            # 'refund_method': 'refund',
+            'move_type': 'refund',
             'date': fields.Date.today(),
         })
         res = res.reverse_moves()
@@ -216,7 +217,7 @@ class AirlineTicket(models.Model):
 
 
     # @api.constrains('state')
-    @api.onchange('state')
+    @api.constrains('sale_order_id')
     def _compute_invoice_id(self):
         for rec in self:
             if rec.sale_order_id:
@@ -224,7 +225,7 @@ class AirlineTicket(models.Model):
             else:
                 rec.invoice_id = False
 
-    @api.onchange('state')
+    @api.constrains('purchase_order_id')
     def _compute_bill_id(self):
         for rec in self:
             if rec.purchase_order_id:

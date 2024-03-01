@@ -7,9 +7,9 @@
 			<field name="arch" type="xml">
 				<tree string="Tickets" decoration-danger="is_line_red == True">
 					<field name="currency_id" optional="show" invisible="1"/>
-					<field name="is_line_red" invisible="1"/>
-					<field name="vendor_currency_id" invisible="1"/>
-					<field name="company_currency_id" invisible="1"/>
+					<field name="is_line_red" invisible="1" optional="show"/>
+					<field name="vendor_currency_id" invisible="1" optional="show"/>
+					<field name="company_currency_id" invisible="1" optional="show"/>
 					<field name="name"/>
 					<field name="ticket_numbers" invisible="1"/>
 					<field name="passenger_names" invisible="1"/>
@@ -57,7 +57,7 @@
 						<button name="action_reverse" string="Refund" class="oe_highlight" type="object" groups="account.group_account_invoice" invisible = "invoice_move_type not in ['out_invoice', 'in_invoice'] or invoice_state == 'posted' or invoice_payment_state not in ['in_payment', 'paid', 'partial'] or state == 'refund'"/>
 <!--						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', ('invoice_state', '!=', 'posted'), ('invoice_payment_state', 'not in', ('not_paid', 'partial')), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_id', '=', False)]}" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>-->
 <!--						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice" invisible = "invoice_state != 'posted' or invoice_payment_state not in ['not_paid', 'partial'] or invoice_move_type not in ['out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'] or invoice_id == False"/>-->
-						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>
+						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice" invisible="state != 'confirmed' or id == False or invoice_payment_state in ['in_payment', 'paid', 'partial']"/>
 <!--						<button name="action_register_payment" id="account_invoice_payment_btn" type="object" class="oe_highlight" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>-->
 <!--						<button name="action_reverse_confirmed" type="object" string="Refund" attrs="{'invisible': ['|', '|', ('state', '!=', 'confirmed'), ('id', '=', False), ('invoice_payment_state', 'in', ['in_payment', 'paid', 'partial'])]}"/>-->
 						<button name="action_reverse_confirmed" type="object" string="Refund" invisible="state != 'confirmed' or id == False or invoice_payment_state in ['in_payment', 'paid', 'partial']"/>

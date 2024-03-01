@@ -6,7 +6,7 @@
     'author': "AliFaleh@BasicPowered",
     'website': "https://site.basic-powered.com",
     'category': 'Ticketing',
-    'version': '16.0',
+    'version': '17.0',
     'depends': [
         'base', 
         'contacts', 
