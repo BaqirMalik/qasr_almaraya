@@ -1,0 +1,15 @@
+<odoo>
+
+    <record model="ir.module.category" id="user_journal_restriction.journals_restriction">
+        <field name="name">Journals Visibility</field>
+        <field name="parent_id" ref="base.module_category_accounting"/>
+        <field name="description">Handles Journals Visibility.</field>
+        <field name="sequence">10</field>
+    </record>
+  
+    <record id="user_journal_restriction.group_manager" model="res.groups">  
+        <field name="name">Manager</field>  
+        <field name="category_id" ref="user_journal_restriction.journals_restriction"/>   
+    </record>
+
+</odoo>
