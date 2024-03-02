@@ -17,7 +17,8 @@ class PurchaseOrder(models.Model):
                     picking.action_assign()
                     picking.action_confirm()
                     for mv in picking.move_ids_without_package:
-                        mv.quantity_done = mv.product_uom_qty
+                        # mv.quantity_done = mv.product_uom_qty
+                        mv.quantity = mv.product_uom_qty
                     picking.button_validate()
 
             if company_id.create_invoice_for_po and not order.invoice_ids:
