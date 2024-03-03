@@ -51,7 +51,8 @@ class AirlineTicket(models.Model):
     main_price = fields.Monetary(currency_field='company_currency_id', compute="_compute_main_price_price")
     bill_state = fields.Selection(related='bill_id.state')
     invoice_state = fields.Selection(related='invoice_id.state')
-    is_line_red = fields.Boolean(compute="_compute_main_cost_price") 
+    is_invoice_paid = fields.Boolean("Is Invoice Paid", default=False)
+    is_line_red = fields.Boolean(compute="_compute_main_cost_price")
     assignee_id = fields.Many2one('res.users')
 
     def _compute_company_currency(self):
@@ -242,12 +243,15 @@ class AirlineTicket(models.Model):
 
     def action_register_payment(self):
         if self.sale_order_id:
-            try:
-                self.invoice_id = self.sale_order_id.invoice_ids.filtered(lambda inv: inv.state == 'posted')[0]
-            except Exception:
-                raise ValidationError("Create Invoice First From Sale Order")
-
-        return self.invoice_id.action_register_payment()
+            # try:
+            #     self.invoice_id = self.sale_order_id.invoice_ids.filtered(lambda inv: inv.state == 'posted')[0]
+            # except Exception:
+            #     raise ValidationError("Create Invoice First From Sale Order"
+            self.invoice_id = self.sale_order_id.invoice_ids.filtered(lambda inv: inv.state == 'posted')
+            invoice_id = self.sale_order_id._create_invoices()
+            invoice_posted = invoice_id.action_post()
+            self.invoice_id = invoice_id
+        return invoice_id.action_register_payment()
 
 
     def validate_passenger_lines(self):
@@ -274,6 +278,11 @@ class AirlineTicket(models.Model):
             if sales_price_list_id:
                 sale_order_vals['pricelist_id'] = sales_price_list_id.id
             sale_order_id = self.env['sale.order'].create(sale_order_vals)
+            if sale_order_id.state != 'draft':
+                # If the sale order is not in draft state, raise an error
+                raise ValueError("The sale order is not in draft state and cannot be confirmed.")
+
+
             purchase_order_id = self.env['purchase.order'].create({
                 'partner_id': self.vendor_id.id,
                 'date_order': fields.Date.today(),

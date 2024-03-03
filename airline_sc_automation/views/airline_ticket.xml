@@ -63,6 +63,7 @@
 						<button name="action_reverse_confirmed" type="object" string="Refund" invisible="state != 'confirmed' or id == False or invoice_payment_state in ['in_payment', 'paid', 'partial']"/>
 						<button name="action_draft" type="object" string="Reset to Draft" invisible="state != 'cancelled'"/>
 						<field name="state" widget="statusbar" statusbar_visible="draft,confirmed,canceled"/>
+
 					</header>
 					<sheet>
 						<field name="currency_id" invisible="1" force_save="1"/>
@@ -216,6 +217,7 @@
 										<button name="action_cancel" type="object" string="Cancel" invisible="invoice_state == 'cancel' or invoice_payment_state != 'not_paid' or invoice_id == False"/>
 <!--										<button name="action_register_payment" id="account_invoice_payment_btn" type="object" attrs="{'invisible': ['|', '|', '|', ('invoice_state', '!=', 'posted'), ('invoice_payment_state', 'not in', ('not_paid', 'partial')), ('invoice_move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')), ('invoice_id', '=', False)]}" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice"/>-->
 										<button name="action_register_payment" id="account_invoice_payment_btn" type="object" context="{'dont_redirect_to_payments': True}" string="Register Payment" data-hotkey="r" groups="account.group_account_invoice" invisible="invoice_state == 'posted' or invoice_payment_state not in ['not_paid', 'partial'] or invoice_id == False"/>
+
 									</tree>
 									<form string="Refund Line">
 										<field name="invoice_move_type" invisible="1"/>

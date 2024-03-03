@@ -238,6 +238,10 @@ class AirlineTour(models.Model):
 
 
     def action_register_payment(self):
+        self.invoice_id = self.sale_order_id.invoice_ids.filtered(lambda inv: inv.state == 'posted')
+        invoice_id = self.sale_order_id._create_invoices()
+        invoice_posted = invoice_id.action_post()
+        self.invoice_id = invoice_id
         return self.invoice_id.action_register_payment()
 
     def action_reverse_confirmed(self):
