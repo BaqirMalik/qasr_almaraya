@@ -1,7 +1,7 @@
 <odoo>
     <data>
-        <template id="airline_sc_automation.print_template" inherit_id="account_reports.print_template">
-            <xpath expr="//t[@t-out='body_html']" position="before">
+        <template id="airline_sc_automation.print_template" inherit_id="account_reports.journal_report_pdf_export_main_table_body">
+            <xpath expr="//td[hasclass('o_line_name_level')]" position="before">
                 <style>
                     .o_account_reports_table > tbody > tr > td{
                         border: 1px solid black !important;

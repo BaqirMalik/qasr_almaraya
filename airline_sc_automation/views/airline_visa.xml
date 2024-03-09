@@ -7,10 +7,10 @@
             <field name="model">airline.visa</field>
             <field name="arch" type="xml">
                 <tree string="Visa" decoration-danger="is_line_red == True">
-					<field name="currency_id" invisible="1"/>
-					<field name="is_line_red" invisible="1"/>
-					<field name="vendor_currency_id" invisible="1"/>
-					<field name="company_currency_id" invisible="1"/>
+					<field name="currency_id" invisible="1" optional="hide"/>
+					<field name="is_line_red" invisible="1" optional="hide"/>
+					<field name="vendor_currency_id" invisible="1" optional="hide"/>
+					<field name="company_currency_id" invisible="1" optional="hide"/>
                     <field name="name"/>
                     <field name="customer_id" optional="show"/>
 					<field name="email" widget="email" optional="show"/>

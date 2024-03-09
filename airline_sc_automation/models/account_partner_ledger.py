@@ -427,6 +427,7 @@ class PartnerLedgerCustomHandler(models.AbstractModel):
         report = self.env['account.report']
         temp_columns = self.env['account.report.column'].search([('temp', '=', True)])
         temp_columns_names = list(temp_columns.mapped('expression_label'))
+        currency = self.env['res.currency'].browse(aml_query_result['currency_id'])
         for column in options['columns']:
             col_expr_label = column['expression_label']
 
@@ -449,16 +450,17 @@ class PartnerLedgerCustomHandler(models.AbstractModel):
                     col_class = 'date'
                 elif col_expr_label == 'amount_currency':
                     currency = self.env['res.currency'].browse(aml_query_result['currency_id'])
-                    formatted_value = report.format_value(col_value, currency=currency, figure_type=column['figure_type'])
+                    formatted_value = report.format_value(col_value, currency=currency, figure_type=column['figure_type'], blank_if_zero=column['blank_if_zero'])
                 elif col_expr_label == 'balance':
                     # col_value += init_bal_by_col_group[column['column_group_key']]
-                    formatted_value = report.format_value(col_value, figure_type=column['figure_type'], blank_if_zero=column['blank_if_zero'])
+                    formatted_value = report.format_value(col_value, figure_type=column['figure_type'],currency=currency, blank_if_zero=column['blank_if_zero'])
                 else:
+
                     if col_expr_label == 'ref':
                         col_class = 'o_account_report_line_ellipsis'
                     elif col_expr_label not in ('debit', 'credit'):
                         col_class = ''
-                    formatted_value = report.format_value(col_value, figure_type=column['figure_type'])
+                    formatted_value = report.format_value(col_value, currency=currency, figure_type=column['figure_type'], blank_if_zero=column['blank_if_zero'])
 
                 columns.append({
                     'name': formatted_value,
@@ -502,8 +504,10 @@ class PartnerLedgerCustomHandler(models.AbstractModel):
         queries = []
         params = []
         report = self.env.ref('account_reports.partner_ledger_report')
-        ct_query = self.env['res.currency']._get_query_currency_table(options)
+        # ct_query = self.env['res.currency']._get_query_currency_table(options)
+        ct_query = self.env['res.currency']._get_query_currency_table(self.env.companies.ids, fields.Date.today())
         _logger.warning(f"[ct_query] => {ct_query}")
+
 
         company_currency_id = self.env.user.company_id.currency_id
         temp_columns = self.env['account.report.column'].search([('temp', '=', True), ('active', 'in', [True, False])])

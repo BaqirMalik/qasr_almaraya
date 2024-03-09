@@ -6,10 +6,10 @@
 			<field name="model">airline.ticket</field>
 			<field name="arch" type="xml">
 				<tree string="Tickets" decoration-danger="is_line_red == True">
-					<field name="currency_id" optional="show" invisible="1"/>
-					<field name="is_line_red" invisible="1" optional="show"/>
-					<field name="vendor_currency_id" invisible="1" optional="show"/>
-					<field name="company_currency_id" invisible="1" optional="show"/>
+					<field name="currency_id" optional="hide" invisible="1"/>
+					<field name="is_line_red" invisible="1" optional="hide"/>
+					<field name="vendor_currency_id" invisible="1" optional="hide"/>
+					<field name="company_currency_id" invisible="1" optional="hide"/>
 					<field name="name"/>
 					<field name="ticket_numbers" invisible="1"/>
 					<field name="passenger_names" invisible="1"/>

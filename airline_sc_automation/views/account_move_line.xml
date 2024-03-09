@@ -19,6 +19,12 @@
                     <field name="is_pl_audited" widget="boolean_toggle" string="PL Audit"/>
                     <field name="pl_note" optional="hide"/>
                 </xpath>
+                <xpath expr="//field[@name='is_gl_audited']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                <xpath expr="//field[@name='is_pl_audited']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
             </field>
         </record>
 

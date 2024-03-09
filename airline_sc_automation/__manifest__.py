@@ -40,7 +40,7 @@
         'views/airline_visa.xml',
         'views/airline_mpayment.xml',
         'views/res_partner.xml',
-        # 'views/report_templates.xml',
+        'views/report_templates.xml',
         'views/res_company.xml',
         'views/account.xml',
         'views/account_payment.xml',
